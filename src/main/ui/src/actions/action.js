@@ -1,3 +1,14 @@
+let initialize, getGame;
+
+if (process.env.NODE_ENV !== 'development') {
+    initialize = `${window.location.protocol}//${window.location.host}/initialize`;
+    getGame = `${window.location.protocol}//${window.location.host}/getGame/`;
+} else if (process.env.NODE_ENV === 'development') {
+    initialize = 'http://localhost:8080/initialize';
+    getGame = `http://localhost:8080/getGame/`
+}
+
+
 export const showError = (error) => ({
     type: 'SHOW_ERROR',
     error
@@ -8,7 +19,7 @@ export const setUsername = (value) => (dispatch) => {
         username: value
     }
     dispatch({type: 'LOADING'})
-    fetch('http://localhost:8080/initialize', {
+    fetch(initialize, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -33,7 +44,7 @@ export const setUsername = (value) => (dispatch) => {
 
 export const getGameData = gameId => dispatch => {
     dispatch({type: 'LOADING'})
-    fetch(`http://localhost:8080/getGame/${gameId}`, {
+    fetch(getGame.concat(gameId), {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
