@@ -53,7 +53,7 @@ public class GameService {
 
     @Async
     public void updatePlayersInGame(String gameId, int players) throws InterruptedException {
-        Thread.sleep(1500);
+        Thread.sleep(2500);
         HashMap<String, String> response = new HashMap<>();
         response.put("gameId", gameId);
         response.put("players", String.valueOf(players));
