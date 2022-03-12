@@ -2,111 +2,36 @@ import {placeEnum} from "../constants/contants";
 
 // const initialState = {
 //     loaded: true,
-//     username: 'dsfa',
+//     username: 'p3',
 //     gameId: "21312313",
-//     players: [
-//         {
-//             username: 'asssd',
-//             cards: [
-//                 '2h',
-//                 'Kh',
-//                 '5h',
-//                 '6h',
-//                 'Qd',
-//                 'Jc',
-//                 '8d',
-//                 '3c',
-//                 '4s',
-//                 'Jh',
-//                 '6d',
-//                 'Qh',
-//                 'Js'
-//             ],
-//             place: 'NORTH'
-//         },
-//         {
-//             username: 'dsfa',
-//             cards: [
-//                 '8d',
-//                 '6s',
-//                 '9h',
-//                 '7s',
-//                 '5d',
-//                 '7d',
-//                 '8h',
-//                 'Kc',
-//                 '7h',
-//                 '4c',
-//                 '5s',
-//                 'As',
-//                 'Ac'
-//             ],
-//             place: 'EAST'
-//         },
-//         {
-//             username: 'dsfa',
-//             cards: [
-//                 '8d',
-//                 '6s',
-//                 '4d',
-//                 '7s',
-//                 '5d',
-//                 '7d',
-//                 '8h',
-//                 'Kc',
-//                 '7h',
-//                 '4c',
-//                 '5s',
-//                 'As',
-//                 'Ac'
-//             ],
-//             place: 'WEST'
-//         },
-//         {
-//             username: 'dsfa',
-//             cards: [
-//                 '8d',
-//                 '6s',
-//                 '9h',
-//                 '7s',
-//                 '5d',
-//                 '7d',
-//                 '8h',
-//                 'Kc',
-//                 '7h',
-//                 '4c',
-//                 '5s',
-//                 'As',
-//                 'Ac'
-//             ],
-//             place: 'SOUTH'
-//         }
-//     ],
+//     "players": [{
+//         "cards": ["2h", "Jh", "5s", "9d", "Kc", "9h", "3h", "6d", "3s", "Jc", "9s", "6h", "Qh"],
+//         "place": "NORTH",
+//         "username": "p1"
+//     }, {
+//         "cards": ["Qc", "Qd", "Qs", "Ah", "Kd", "4c", "7h", "Th", "6c", "2c", "Jd", "5c", "Js"],
+//         "place": "EAST",
+//         "username": "p2"
+//     }, {
+//         "cards": ["As", "Ks", "Kh", "Ac", "2d", "4s", "8c", "5h", "8d", "4h", "6s", "Td", "8s"],
+//         "place": "SOUTH",
+//         "username": "p3"
+//     }, {
+//         "cards": ["7d", "7s", "Ts", "Ad", "3d", "8h", "9c", "7c", "4d", "2s", "3c", "5d", "Tc"],
+//         "place": "WEST",
+//         "username": "p4"
+//     }],
 //     user: {
-//         username: 'dsfa',
-//         cards: [
-//             '8d',
-//             '6s',
-//             '9h',
-//             '7s',
-//             '5d',
-//             '7d',
-//             '8h',
-//             'Kc',
-//             '7h',
-//             '4c',
-//             '5s',
-//             'As',
-//             'Ac'
-//         ],
-//         place: 'SOUTH'
+//         cards: ["As", "Ks", "Kh", "Ac", "2d", "4s", "8c", "5h", "8d", "4h", "6s", "Td", "8s"],
+//         place: "SOUTH",
+//         username: "p3"
 //     },
 //     playersConnected: 4,
 //     whoseTurn: 'SOUTH',
 //     playedCardsSoFar: {
-//         SOUTH: '8d',
-//         NORTH: 'Jc',
-//         WEST: '5s'
+//         WEST: 'Ts',
+//         NORTH: '3s',
+//         EAST: 'Js'
 //     }
 // }
 
@@ -140,7 +65,8 @@ const handlers = {
     }),
     USER_PLAYED: (state, action) => ({
             ...state,
-            playedCardsSoFar: action.playedCardsSoFar
+            playedCardsSoFar: action.playedCardsSoFar,
+            hands: action.hands
         }
     ),
     UPDATE_CONNECTED_PLAYERS: (state, action) => ({

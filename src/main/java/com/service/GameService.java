@@ -24,31 +24,11 @@ public class GameService {
 
     private static final Logger log = LoggerFactory.getLogger(GameService.class);
 
-    private final GameRepository gameRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public GameService(GameRepository gameRepository, SimpMessagingTemplate messagingTemplate) {
-        this.gameRepository = gameRepository;
+    public GameService(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
-    }
-
-    public void continueGame(Turn playedTurn) {
-        Optional<Game> game = gameRepository.findById(playedTurn.getGameId());
-
-        if (game.isPresent()) {
-            Game currentGame = game.get();
-            Player currentPlayer = currentGame.getPlayers().stream()
-                    .filter(player -> Objects.equals(player.getPlace(), playedTurn.getPlace()))
-                    .findFirst().orElse(null);
-            List<String> currentPlayerCards;
-            if (currentPlayer != null) {
-                currentPlayerCards = currentPlayer.getCards().stream()
-                        .filter(card -> !Objects.equals(playedTurn.getPlayedCard(), card))
-                        .collect(Collectors.toList());
-                currentPlayer.setCards(currentPlayerCards);
-            }
-        }
     }
 
     @Async

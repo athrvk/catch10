@@ -24,7 +24,7 @@ class App extends Component {
                 }
             }, 500)
         } else {
-            this.props.userPlayed(response.playedCard, response.playedCardsSoFar);
+            this.props.userPlayed(response.playedCard, response.playedCardsSoFar, response.hands);
             this.props.setPlayersTurn(response.place);
             console.log(`${response.username} played : ${response.playedCard}`);
             console.log("Received: ", response, topic);
@@ -74,7 +74,7 @@ class App extends Component {
                 <BoardMain sendMessage={this.sendMessage}
                            wsSourceUrl={this.props.wsSourceUrl}
                 />
-                <div className="footer mt-5"></div>
+                <div className="footer mt-5"/>
             </div>
         );
     }

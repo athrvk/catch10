@@ -29,10 +29,6 @@
     position: absolute;
 }
 
-span {
-    z-index: 999;
-}
-
 .topUserName {
     position: absolute;
     top: -3rem;
