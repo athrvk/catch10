@@ -26,6 +26,7 @@ class BoardMain extends PureComponent {
             )
         }
         playerWhoseTurn && (document.title = `catch10 | ${playerWhoseTurn && playerWhoseTurn.username}'s turn`)
+
         return (
             <div className="box">
                 {
@@ -51,6 +52,7 @@ class BoardMain extends PureComponent {
                                             whoseTurn={this.props.whoseTurn}
                                             sendMessage={this.props.sendMessage}
                                             hands={this.props.hands}
+                                            handCounts={this.props.handCounts}
                                 />
                             </div>
                         )
@@ -70,7 +72,8 @@ const mapStateToProps = (store) => ({
     gameId: store.gameId,
     whoseTurn: store.whoseTurn,
     playedCardsSoFar: store.playedCardsSoFar,
-    hands: store.hands
+    hands: store.hands,
+    handCounts: store.handCounts
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({...actions}, dispatch);

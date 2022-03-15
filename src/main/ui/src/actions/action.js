@@ -69,9 +69,9 @@ export const saveGameData = data => dispatch => dispatch({
     data
 })
 
-export const userPlayed = (card, playedCardsSoFar, hands) => dispatch => dispatch({
+export const userPlayed = (card, playedCardsSoFar, hands, handCounts) => dispatch => dispatch({
     type: 'USER_PLAYED',
-    card, playedCardsSoFar, hands
+    card, playedCardsSoFar, hands, handCounts
 })
 
 export const updateConnectedPlayers = count => dispatch => dispatch({
@@ -84,9 +84,9 @@ export const setClientStatus = status => dispatch => dispatch({
     status
 })
 
-export const setPlayersTurn = whoseTurn => dispatch => dispatch({
+export const setPlayersTurn = (whoseTurn, handWinnerPlayerPlace) => dispatch => dispatch({
     type: 'SET_PLAYERS_TURN',
-    whoseTurn
+    whoseTurn, handWinnerPlayerPlace
 })
 
 export const removePlayedCards = playedCardsSoFar => dispatch => dispatch({

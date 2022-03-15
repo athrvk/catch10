@@ -2,34 +2,20 @@ import React, {Component} from 'react'
 import Cards from './Cards'
 import '../css/BoardChild.css'
 import NonPlayingCards from './NonPlayingCards'
-import {Box, CardContent, Typography} from "@mui/material";
-import {getTensCaught, getTotalHands} from "../utils/utils";
+import {Typography} from "@mui/material";
+import ScoreBoard from "./ScoreBoard";
+import {assignPlace} from "../utils/utils";
 
 export default class BoardChild extends Component {
-    assignPlace = (userPlace, playerNorth, playerEast, playerSouth, playerWest) => {
-        if (userPlace === 'SOUTH') {
-            return [playerNorth, playerWest, playerSouth, playerEast]
-        }
-        if (userPlace === 'NORTH') {
-            return [playerSouth, playerEast, playerNorth, playerWest]
-        }
-        if (userPlace === 'EAST') {
-            return [playerWest, playerSouth, playerEast, playerNorth]
-        }
-        if (userPlace === 'WEST') {
-            return [playerEast, playerNorth, playerWest, playerSouth]
-        }
-    }
 
     render() {
-        let {players, user, username} = this.props
-        let pNorth = players.filter(player => player.place === 'NORTH')[0]
-        let pEast = players.filter(player => player.place === 'EAST')[0]
-        let pSouth = players.filter(player => player.place === 'SOUTH')[0]
-        let pWest = players.filter(player => player.place === 'WEST')[0]
+        let {players, user, username, handCounts} = this.props
+        const pNorth = players.filter(player => player.place === 'NORTH')[0]
+        const pEast = players.filter(player => player.place === 'EAST')[0]
+        const pSouth = players.filter(player => player.place === 'SOUTH')[0]
+        const pWest = players.filter(player => player.place === 'WEST')[0]
 
-        let playersInOrder = this.assignPlace(user.place, pNorth, pEast, pSouth, pWest)
-
+        const playersInOrder = assignPlace(user.place, pNorth, pEast, pSouth, pWest)
 
         return (
             <div className='board'>
@@ -72,44 +58,11 @@ export default class BoardChild extends Component {
                         }
                     </div>
                 </div>
-                <Box sx={{
-                    width: 300,
-                    height: 300,
-                    zIndex: 'tooltip',
-                    position: 'absolute',
-                    left: '-60%',
-                }}>
-                    <CardContent>
-                        <Typography color="text.primary" variant="h5" gutterBottom>
-                            Team: {playersInOrder[0].username} & {username}
-                        </Typography>
-                        <Typography color="text.secondary" variant="h6" component="div">
-                            Hands: {getTotalHands(this.props.hands, playersInOrder[0].place, user.place)}
-                        </Typography>
-                        <Typography color="text.secondary" variant="h6" component="div">
-                            10's caught: {getTensCaught(this.props.hands, playersInOrder[0].place, user.place)}
-                        </Typography>
-                    </CardContent>
-                </Box>
-                <Box sx={{
-                    width: 300,
-                    height: 300,
-                    zIndex: 'tooltip',
-                    position: 'absolute',
-                    right: '-60%',
-                }}>
-                    <CardContent>
-                        <Typography color="text.primary" variant="h5" gutterBottom>
-                            Team: {playersInOrder[3].username} & {playersInOrder[1].username}
-                        </Typography>
-                        <Typography color="text.secondary" variant="h6" component="div">
-                            Hands: {getTotalHands(this.props.hands, playersInOrder[3].place, playersInOrder[1].place)}
-                        </Typography>
-                        <Typography color="text.secondary" variant="h6" component="div">
-                            10's caught: {getTensCaught(this.props.hands, playersInOrder[3].place, playersInOrder[1].place)}
-                        </Typography>
-                    </CardContent>
-                </Box>
+                <ScoreBoard playersInOrder={playersInOrder}
+                            handCounts={handCounts}
+                            user={user}
+                            username={username}
+                />
             </div>
         )
     }

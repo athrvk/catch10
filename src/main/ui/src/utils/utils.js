@@ -10,17 +10,17 @@ export const isSameSuite = (card, playedCardsSoFar) => {
     return true;
 };
 
-export const getTotalHands = (hands, player1, player2) => {
-    const hands1 = hands && hands[player1] ? hands[player1].length : 0;
-    const hands2 = hands && hands[player2] ? hands[player2].length : 0;
-    return hands1 + hands2;
-}
-
-export const getTensCaught = (hands, player1, player2) => {
-    const listOfHands1 = hands && hands[player1];
-    const listOfHands2 = hands && hands[player2];
-    let ten1 = 0, ten2 = 0;
-    listOfHands1 && listOfHands1.forEach(list => list && list.forEach(card => card.includes('T') && ten1++))
-    listOfHands2 && listOfHands2.forEach(list => list && list.forEach(card => card.includes('T') && ten2++))
-    return ten1 + ten2;
+export const assignPlace = (userPlace, playerNorth, playerEast, playerSouth, playerWest) => {
+    if (userPlace === 'SOUTH') {
+        return [playerNorth, playerWest, playerSouth, playerEast]
+    }
+    if (userPlace === 'NORTH') {
+        return [playerSouth, playerEast, playerNorth, playerWest]
+    }
+    if (userPlace === 'EAST') {
+        return [playerWest, playerSouth, playerEast, playerNorth]
+    }
+    if (userPlace === 'WEST') {
+        return [playerEast, playerNorth, playerWest, playerSouth]
+    }
 }

@@ -22,7 +22,9 @@ class Cards extends Component {
             gameId,
             place: user.place,
             username,
-            playedCardsSoFar
+            playedCardsSoFar,
+            hands: this.props.hands,
+            handCounts: this.props.handCounts
         }
         if (isSameSuite(card, playedCardsSoFar)) {
             this.props.sendMessage(payload);
@@ -122,7 +124,9 @@ class Cards extends Component {
 const mapStateToProps = (store) => ({
     gameId: store.gameId,
     whoseTurn: store.whoseTurn,
-    playedCardsSoFar: store.playedCardsSoFar
+    playedCardsSoFar: store.playedCardsSoFar,
+    hands: store.hands,
+    handCounts: store.handCounts
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({...actions}, dispatch);

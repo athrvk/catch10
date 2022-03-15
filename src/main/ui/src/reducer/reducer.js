@@ -66,7 +66,8 @@ const handlers = {
     USER_PLAYED: (state, action) => ({
             ...state,
             playedCardsSoFar: action.playedCardsSoFar,
-            hands: action.hands
+            hands: action.hands,
+            handCounts: action.handCounts
         }
     ),
     UPDATE_CONNECTED_PLAYERS: (state, action) => ({
@@ -79,7 +80,9 @@ const handlers = {
     }),
     SET_PLAYERS_TURN: (state, action) => ({
         ...state,
-        whoseTurn: placeEnum[(placeEnum[action.whoseTurn] + 1) % 4]
+        whoseTurn: !action.handWinnerPlayerPlace ?
+            placeEnum[(placeEnum[action.whoseTurn] + 1) % 4] :
+            action.handWinnerPlayerPlace
     }),
     REMOVE_PLAYED_CARDS: (state, action) => {
         const userCards = state.user.cards;

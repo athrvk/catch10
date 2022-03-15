@@ -1,7 +1,9 @@
 package com.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,4 +16,15 @@ public class Turn {
     String username;
     Map<String, String> playedCardsSoFar;
     Map<String, List<List<String>>> hands;
+    List<HandCount> handCounts;
+    String handWinnerPlayerPlace;
+
+    @Data
+    @AllArgsConstructor
+    public static class HandCount {
+        String place;
+        int handCount;
+        int tensCount;
+    }
+
 }
