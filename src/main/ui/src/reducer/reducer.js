@@ -66,6 +66,7 @@ const handlers = {
     USER_PLAYED: (state, action) => ({
             ...state,
             playedCardsSoFar: action.playedCardsSoFar,
+            trump: action.trump,
             hands: action.hands,
             handCounts: action.handCounts
         }

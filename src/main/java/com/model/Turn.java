@@ -3,7 +3,6 @@ package com.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ public class Turn {
     String playedCard;
     String place;
     String username;
+    String trump;
     Map<String, String> playedCardsSoFar;
     Map<String, List<List<String>>> hands;
     List<HandCount> handCounts;

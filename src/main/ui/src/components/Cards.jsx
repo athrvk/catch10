@@ -15,28 +15,29 @@ class Cards extends Component {
         }
     }
 
-    handleClick = (e, card, gameId, user, username, playedCardsSoFar) => {
-        // console.log('Button clicked: ' + e.target.parentNode.value || e.target.value);
+    handleClick = (e, card, trump, gameId, user, username, playedCardsSoFar) => {
         const payload = {
             playedCard: card,
             gameId,
+            trump,
             place: user.place,
             username,
             playedCardsSoFar,
             hands: this.props.hands,
             handCounts: this.props.handCounts
         }
-        if (isSameSuite(card, playedCardsSoFar)) {
+        if (!trump || isSameSuite(card, playedCardsSoFar)) {
             this.props.sendMessage(payload);
             this.setState({playedCard: null});
         } else {
             this.setState({playedCard: card});
         }
-        // console.log(payload, this.props.sendMessage(payload));
     }
 
+    isTrump = card => this.props.trump === card[1];
+
     render() {
-        const {user, username, whoseTurn, gameId} = this.props;
+        const {user, username, whoseTurn, gameId, trump} = this.props;
         let {playedCardsSoFar} = this.props
         let prevPlayedCards = null
         if (null !== playedCardsSoFar) {
@@ -60,7 +61,11 @@ class Cards extends Component {
             <div className='d-flex position-relative'>
                 {
                     user.cards && user.cards.map((card, idx) => {
-                        if (this.state.playedCard === card && !isSameSuite(card, playedCardsSoFar)) {
+                        /*
+                            Primary: Animate different suite card play
+                            Secondary: Handle different suite card play, provided trump has been defined
+                         */
+                        if (this.state.playedCard === card && (!(trump && !this.isTrump(card)) ^ !isSameSuite(card, playedCardsSoFar))) {
                             return (
                                 <motion.span className='position-absolute' key={idx}
                                              style={{left: idx * 40.25, pointerEvents: 'none', zIndex: 9}}
@@ -80,7 +85,12 @@ class Cards extends Component {
                                 </motion.span>
                             )
                         }
-                        if (isThisCardPlayed(card, this.props.playedCardsSoFar) && isSameSuite(card, playedCardsSoFar)) {
+                        /*
+                            Primary: Animate the played card movement
+                            Secondary: Prevent different suite card play, provided trump has been defined
+                         */
+                        if (isThisCardPlayed(card, this.props.playedCardsSoFar) &&
+                            ((!trump) || (trump && this.isTrump(card)) || isSameSuite(card, playedCardsSoFar))) {
                             const posStartX = -idx * 40.25;
                             return (
                                 <motion.span className='position-absolute' key={idx}
@@ -108,7 +118,7 @@ class Cards extends Component {
                                                style={btnStyle}
                                                value={card}
                                                disabled={whoseTurn !== user.place}
-                                               onClick={e => this.handleClick(e, card, gameId, user, username, playedCardsSoFar)}
+                                               onClick={e => this.handleClick(e, card, trump, gameId, user, username, playedCardsSoFar)}
                                 >
                                     <Card className='cardBtn' card={card} deck-type={'big-face'} height='110px'/>
                                 </button>
@@ -126,6 +136,7 @@ const mapStateToProps = (store) => ({
     whoseTurn: store.whoseTurn,
     playedCardsSoFar: store.playedCardsSoFar,
     hands: store.hands,
+    trump: store.trump,
     handCounts: store.handCounts
 });
 

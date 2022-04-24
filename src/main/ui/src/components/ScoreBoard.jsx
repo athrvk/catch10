@@ -5,8 +5,8 @@ import {assignPlace} from "../utils/utils";
 class ScoreBoard extends Component {
 
     nonNull = (val, index, handCount) => handCount ?
-        val && val[index] && val[index].handCount || 0:
-        val && val[index] && val[index].tensCount || 0;
+        (val && val[index] && val[index].handCount) || 0:
+        (val && val[index] && val[index].tensCount) || 0;
 
     render() {
         const {handCounts, playersInOrder, user, username} = this.props;

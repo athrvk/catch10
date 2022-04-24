@@ -24,7 +24,7 @@ class App extends Component {
                 }
             }, 500)
         } else {
-            this.props.userPlayed(response.playedCard, response.playedCardsSoFar, response.hands, response.handCounts);
+            this.props.userPlayed(response.playedCard, response.trump, response.playedCardsSoFar, response.hands, response.handCounts);
             this.props.setPlayersTurn(response.place, response.handWinnerPlayerPlace);
             console.log(`${response.username} played : ${response.playedCard}`);
             console.log("Received: ", response, topic);

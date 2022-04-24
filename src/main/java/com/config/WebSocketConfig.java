@@ -6,13 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-
-import java.security.Principal;
 
 import static java.time.LocalTime.now;
 
@@ -26,11 +25,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/handler").setAllowedOriginPatterns("*").withSockJS();
-        registry.addEndpoint("/handler").setAllowedOriginPatterns("*");
+//        registry.addEndpoint("/handler").setAllowedOriginPatterns("*");
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry brokerRegistry) {
+
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        threadPoolTaskScheduler.setPoolSize(1);
+        threadPoolTaskScheduler.setThreadGroupName("websocket-heartbeat-");
+        threadPoolTaskScheduler.initialize();
+
+
         /*
          * The application destination prefix is an arbitrary prefix to
          * differentiate between messages that need to be routed to
@@ -50,13 +56,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * pub-sub model targeting many subscribers and the "/queue" destination
          * for point to point messaging.
          */
-        brokerRegistry.enableSimpleBroker("/topic", "/queue");
+        brokerRegistry
+                .enableSimpleBroker("/topic", "/queue")
+                .setTaskScheduler(threadPoolTaskScheduler)
+                .setHeartbeatValue(new long[] {10000, 10000});
 
         /*
          * For configuring dedicated broker use the below code.
          */
-//         brokerRegistry.enableStompBrokerRelay("/topic", "/queue");
-        brokerRegistry.setPreservePublishOrder(true);
+//        brokerRegistry
+//                .enableStompBrokerRelay("/topic", "/queue")
+//                .setRelayHost("lionfish.rmq.cloudamqp.com")
+//                .setRelayPort(61613)
+//                .setClientLogin("ttjsgdvi:ttjsgdvi")
+//                .setClientPasscode("oGTR3h0G7iByuizO0gwI3r-lPDdnoT6h");
+//        brokerRegistry.setPreservePublishOrder(true);
     }
 
     @EventListener(SessionConnectEvent.class)
